@@ -1,0 +1,34 @@
+version: '3'
+services:
+  pulse:
+    image: mruettgers/rpi-pulseaudio
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    networks:
+      frontend:
+      backend:
+      #services:
+      #  ipv4_address: 10.4.32.133
+#    devices:
+#      - /dev/snd
+#      - /dev/bus/usb
+    volumes:
+      - pulse_config:/etc/pulse
+      - /usr/local/var/run/dbus:/var/run/dbus
+#      - /var/run/dbus:/var/run/dbus
+#      - /etc/localtime:/etc/localtime:ro
+    logging:
+      options:
+        tag: pulse
+
+volumes:
+  pulse_config:
+
+networks:
+  frontend:
+  backend:
+    internal: true
+#  services:
+#    external:
+#      name: services
