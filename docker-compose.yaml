@@ -10,20 +10,33 @@ services:
       backend:
       #services:
       #  ipv4_address: 10.4.32.133
-#    devices:
-#      - /dev/snd
-#      - /dev/bus/usb
+    devices:
+      - /dev/snd
+      - /dev/bus/usb
     volumes:
       - pulse_config:/etc/pulse
-      - /usr/local/var/run/dbus:/var/run/dbus
-#      - /var/run/dbus:/var/run/dbus
-#      - /etc/localtime:/etc/localtime:ro
+      - dbus_run:/var/run/dbus
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - dbus
     logging:
       options:
         tag: pulse
 
+  dbus:
+    image: mruettgers/rpi-dbus
+    restart: unless-stopped
+    networks:
+      backend:
+    volumes:
+      - dbus_run:/var/run/dbus
+    logging:
+      options:
+        tag: dbus
+
 volumes:
   pulse_config:
+  dbus_run:
 
 networks:
   frontend:
