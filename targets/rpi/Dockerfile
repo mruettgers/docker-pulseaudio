@@ -5,8 +5,8 @@ MAINTAINER Michael Ruettgers <michael@ruettgers.eu>
 RUN set -xe \
   && apk --update --no-cache add pulseaudio pulseaudio-utils pulseaudio-alsa
 
-#COPY files/ /
+# Fix permissions to allow access to the host's alsa devices
+RUN addgroup -g 29 audio-host && \
+  addgroup pulse audio-host
 
-#ENTRYPOINT ["/docker/docker-entrypoint.sh"]
-
-CMD ["pulseaudio", "--system"]
+CMD ["pulseaudio", "--system", "--disallow-module-loading=yes", "--disallow-exit=yes"]
