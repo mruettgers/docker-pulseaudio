@@ -1,4 +1,4 @@
-FROM arm32v7/alpine:3.10
+FROM alpine
 MAINTAINER Michael Ruettgers <michael@ruettgers.eu>
 
 RUN set -xe \
